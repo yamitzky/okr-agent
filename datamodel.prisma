@@ -1,0 +1,45 @@
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  # objectives: [Objective!]!
+}
+
+enum ObjectiveType {
+  COMPANY
+  TEAM
+  INDIVIDUAL
+}
+
+enum Confidence {
+  AWESOME
+  SOSO
+  BAD
+  ABORT
+}
+
+type Objective {
+  id: ID! @id
+  text: String!
+  keyResults: [KeyResult!]!
+  # comments: [Comment!]!
+  type: ObjectiveType!
+  owner: User
+  # contributors: [User!]! @relation(link: TABLE)
+  createdAt: DateTime! @createdAt
+}
+
+type KeyResult {
+  id: ID! @id
+  target: String!
+  current: String
+  confidence: Confidence
+  objective: Objective!
+}
+
+# type Comment {
+#   id: ID! @id
+#   user: User!
+#   objective: Objective!
+#   createdAt: DateTime! @createdAt
+# }

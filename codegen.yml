@@ -1,0 +1,20 @@
+overwrite: true
+schema: 'graphql/schema.graphql'
+documents: 'graphql/queries.graphql'
+generates:
+  graphql/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+      withHOC: false
+      withComponent: false
+      reactApolloVersion: 3
+      namingConvention: keep
+      preResolveTypes: true
+      flattenGeneratedTypes: true
+    hooks:
+      afterAllFileWrite:
+        - prettier --write

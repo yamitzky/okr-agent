@@ -1,0 +1,63 @@
+fragment KeyResultFields on KeyResult {
+  id
+  target
+  current
+  confidence
+}
+
+fragment ObjectiveFields on Objective {
+  id
+  text
+  keyResults {
+    ...KeyResultFields
+  }
+}
+
+query GetOKRs {
+  objectives(orderBy: createdAt_DESC) {
+    ...ObjectiveFields
+  }
+}
+
+query GetUsers {
+  users(orderBy: name_DESC) {
+    id
+    name
+    email
+  }
+}
+
+mutation AddObjective($data: ObjectiveCreateInput!) {
+  createObjective(data: $data) {
+    ...ObjectiveFields
+  }
+}
+
+mutation DeleteObjective($id: ID!) {
+  deleteManyKeyResults(where: { objective: { id: $id } }) {
+    count
+  }
+  deleteObjective(where: { id: $id }) {
+    id
+  }
+}
+
+mutation DeleteKeyResult($id: ID!) {
+  deleteKeyResult(where: { id: $id }) {
+    objective {
+      id
+    }
+  }
+}
+
+mutation UpdateObjective($id: ID!, $data: ObjectiveUpdateInput!) {
+  updateObjective(data: $data, where: { id: $id }) {
+    ...ObjectiveFields
+  }
+}
+
+mutation UpdateKeyResult($id: ID!, $data: KeyResultUpdateInput!) {
+  updateKeyResult(data: $data, where: { id: $id }) {
+    ...KeyResultFields
+  }
+}
